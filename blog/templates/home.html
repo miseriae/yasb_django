@@ -2,21 +2,22 @@
 
 
 {% block content %}
-<h1>Post</h1>
+<h1>Posts</h1>
 
 <ul>
     {% for post in object_list %}
-        <li><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a> - {{ post.author.first_name }}
-            {{ post.author.last_name }} - 
-            {{ post.created_date }}
+    <div class="card" style="width: 90%;">
+        <div class="card-body">
+            <h5 class="card-title"><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a></h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ post.author.first_name }}{{ post.author.last_name }} - {{ post.created_date }}</h6>
+            <p class="card-text">{{ post.body|slice:":258"|safe }}</p>
             {% if user.is_authenticated %}
-                <a href="{% url 'update-post' post.pk %}"><u>[Edit</u></a>
-                <a href="{% url 'delete-post' post.pk %}"><u>Delete]</u></a> 
+            <a class="btn btn-outline-dark" href="{% url 'update-post' post.pk %}" class="card-link">Edit</a>
+            <a class="btn btn-outline-danger" href="{% url 'delete-post' post.pk %}" class="card-link">Delete</a>
             {% endif %}
-        <br/>
-            {{ post.body|slice:":300"|safe }}
-        </li>
-        <br/>
+        </div>
+    </div>
+    <br/>
     {% endfor %}
 </ul>
 {% endblock %}
