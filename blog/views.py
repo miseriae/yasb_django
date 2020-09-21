@@ -37,6 +37,9 @@ class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = PostUpdateForm 
     template_name = 'update-post.html'
 
+    def get_success_url(self):
+        return reverse('article-detail', kwargs={'pk': self.object.pk})
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
