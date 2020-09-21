@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse, reverse_lazy
 
 from .models import Post
 from .forms import PostForm, PostUpdateForm
@@ -11,6 +11,7 @@ class HomeView(ListView):
     model = Post
     template_name = 'home.html'
     ordering = ['-created_date']
+    paginate_by = 5
 
 
 class ArticleDetailView(DetailView):
@@ -18,19 +19,42 @@ class ArticleDetailView(DetailView):
     template_name = 'article-detail.html'
 
 
-class AddPostView(CreateView):
+class AddPostView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'add-post.html'
 
+    def get_success_url(self):
+        return reverse('article-detail', kwargs={'pk': self.object.pk})
 
-class UpdatePostView(LoginRequiredMixin, UpdateView):
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostUpdateForm 
     template_name = 'update-post.html'
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
-class DeletePostView(LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+
+class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'delete-post.html'
     success_url = reverse_lazy('home')
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False

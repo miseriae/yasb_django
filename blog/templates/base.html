@@ -42,7 +42,7 @@
         </ul>
         <ul class="navbar-nav ml-auto"></ul>
         {% if user.is_authenticated %}
-            <p class="text-white">Welcome <u>{{ user.username}}</u></p>
+            <p class="text-white">Welcome <a href="{% url 'edit-profile' %}"><u>{{ user.username }}</u></a></p>
         {% endif %}
       </div>
     </nav>
