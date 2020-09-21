@@ -21,8 +21,7 @@
     {% if post.image %}
         <br/><br/>
         <img src="{{ post.image.url }}">
-
-        <br/> <br/>
     {% endif %}
+    <br/> <br/>
     <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
 {% endblock %}
