@@ -3,8 +3,25 @@
 {% block title %}Edit Profile{% endblock title %}
 
 {% block content %}
-<h1>Edit Profile</h1>
+<!-- <h1>Edit Profile</h1>
 <br/><br/>
+{{ user.profile.bio }}
+<br/><br/> -->
+<div class="card mb-3">
+  <div class="row no-gutters">
+      {% if user.profile.profile_pic %}
+      <div class="col-md-2">
+          <img src="{{ user.profile.profile_pic.url }}" class="card-img">
+      </div>
+      {% endif %}
+      <div class="col-md-10">
+          <div class="card-body">
+              <h5 class="card-title">{{ user.username }}</h5>
+              <p class="card-text">{{ user.profile.bio }}</p>
+          </div>
+      </div>
+  </div>
+</div>    
 
 <div class="form-group">
     <form method="post">

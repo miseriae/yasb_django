@@ -22,6 +22,23 @@
         <br/><br/>
         <img src="{{ post.image.url }}">
     {% endif %}
-    <br/> <br/>
+    <br/><br/>
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            {% if post.author.profile.profile_pic %}
+            <div class="col-md-2">
+                <img src="{{ post.author.profile.profile_pic.url }}" class="card-img">
+            </div>
+            {% endif %}
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.author.first_name }} {{ post.author.last_name}}</h5>
+                    <p class="card-text">{{ post.author.profile.bio }}</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <br/><br/>
     <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
 {% endblock %}
