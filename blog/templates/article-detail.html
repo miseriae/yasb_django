@@ -39,6 +39,20 @@
             </div>
         </div>
     </div>    
+    <br/>
+    <hr>
+    <h2>Comments...</h2>
+    {% if not post.comments.all %}
+        No comments yet... <a href="{% url 'add-comment' post.pk%}">Add one</a>
+    {% else %}
+    <a href="{% url 'add-comment' post.pk%}">Add comment</a>
     <br/><br/>
-    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+        {% for comment in post.comments.all %}
+            <strong>{{ comment.name }}</strong> 
+            <small>{{ comment.date_added }}</small>
+            <br/>
+            {{ comment.body}}
+            <hr>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

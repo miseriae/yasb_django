@@ -16,9 +16,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title + ' | ' + str(self.author)
 
-    # def get_absolute_url(self):
-    #     return reverse('article-detail', kwargs={'pk': self.object.pk})
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
@@ -36,3 +33,13 @@ class Profile(models.Model):
             resize = (300, 300)
             img.thumbnail(resize)
             img.save(self.profile_pic.path)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    body = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.post.title}-{self.name}'
