@@ -48,10 +48,19 @@
     <a href="{% url 'add-comment' post.pk%}">Add comment</a>
     <br/><br/>
         {% for comment in post.comments.all %}
-            <strong>{{ comment.name }}</strong> 
+            <strong>{{ comment.user }}</strong> 
             <small>{{ comment.date_added }}</small>
             <br/>
             {{ comment.body}}
+            <a href="{% url 'add-comment' comment.id %}">Reply</a>
+            <hr>
+            {% for reply in comment.replies.all %}
+            <!-- reply.parent_id - {{reply.parent_id}} |
+            reply.id - {{reply.id}} |
+            comment.id - {{comment.id}} -->
+                <li>{{ reply.user }} - {{ reply.body }}</li>
+                <a href="{% url 'add-comment' comment.id reply.id %}">Reply</a>
+            {% endfor %}
             <hr>
         {% endfor %}
     {% endif %}

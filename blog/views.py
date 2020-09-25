@@ -35,7 +35,7 @@ class AddPostView(LoginRequiredMixin, CreateView):
 class AddCommentView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
-    template_name = 'add_comment.html'
+    template_name = 'add-comment.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
